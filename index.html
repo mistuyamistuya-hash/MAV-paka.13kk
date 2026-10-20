@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#101010" />
-    <meta name="description" content="Vortex, espace local de discussion et de messages privés." />
+    <meta name="description" content="Vortex, salon de discussion en ligne." />
     <title>Vortex — Espace de discussion</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -94,18 +94,18 @@
         <div class="side-heading extra-heading">ÉQUIPE</div>
         <nav class="nav-list extra-nav" aria-label="Arrivées et départs"><button class="nav-item" data-view="activity"><span>↕</span> arrivées-départs</button></nav>
 
-        <div class="side-heading direct-heading"><span>MESSAGES PRIVÉS</span><button id="add-person" class="add-button" title="Ajouter une personne" aria-label="Ajouter une personne">＋</button></div>
+        <div class="side-heading direct-heading"><span>MEMBRES</span><button id="add-person" class="add-button" title="Les membres créent leur propre compte" aria-label="Les membres créent leur propre compte" disabled>＋</button></div>
         <nav id="direct-list" class="nav-list" aria-label="Conversations privées"></nav>
 
         <div class="side-spacer"></div>
-        <div class="local-note"><span>●</span><div><strong>Maquette locale</strong><small>Discussions sur cet appareil seulement.</small></div></div>
-        <div class="profile"><span id="profile-avatar" class="avatar avatar-you">J</span><div class="profile-copy"><strong id="profile-name">Jesse</strong><label class="sr-only" for="current-role">Rôle de démonstration</label><select id="current-role" aria-label="Rôle de démonstration"><option value="general">Général · démo</option><option value="chef">Chef · démo</option><option value="sous-chef">Sous-chef · démo</option><option value="membre">Membre · démo</option></select></div><button id="change-pseudo" class="edit-button" aria-label="Changer mon pseudo" title="Changer mon pseudo">✎</button></div>
+        <div class="local-note"><span>●</span><div><strong id="connection-label">Connexion</strong><small id="connection-description">Connecte-toi pour rejoindre Vortex.</small></div></div>
+        <div class="profile"><span id="profile-avatar" class="avatar avatar-you">J</span><div class="profile-copy"><strong id="profile-name">Invité</strong><label class="sr-only" for="current-role">Ton rôle</label><select id="current-role" aria-label="Ton rôle" disabled><option value="general">Général</option><option value="chef">Chef</option><option value="sous-chef">Sous-chef</option><option value="membre" selected>Membre</option></select></div><button id="change-pseudo" class="edit-button" aria-label="Changer mon pseudo" title="Changer mon pseudo" disabled>✎</button></div>
       </aside>
 
       <main class="main-area">
         <header class="topbar">
           <div class="crumb"><span id="view-icon">#</span><strong id="view-title">général</strong><span class="slash">/</span><span id="view-description">Le salon de tout le monde</span></div>
-          <div class="top-actions"><span class="presence"><i></i><span id="presence-count">3</span> <span id="presence-label">membres</span></span><span class="local-pill"><i></i> Local</span><button class="outline-button" id="invite-button">＋ Inviter</button></div>
+          <div class="top-actions"><span class="presence"><i></i><span id="presence-count">0</span> <span id="presence-label">membres</span></span><span class="local-pill"><i></i> En ligne</span><button class="outline-button" id="invite-button">＋ Inviter</button><button class="outline-button" id="sign-out-button" type="button">Déconnexion</button></div>
         </header>
         <div class="content">
           <section class="hero">
@@ -253,7 +253,27 @@
       <div class="copy-row"><input id="invite-link" readonly /><button id="copy-invite" type="button">Copier</button></div>
       <p id="invite-feedback" class="fine-print" aria-live="polite"></p>
     </dialog>
+    <section id="auth-gate" class="auth-gate" aria-labelledby="auth-title">
+      <div class="auth-card">
+        <span class="storm-brand-mark" aria-hidden="true">V</span>
+        <small>REJOINDRE L’ESPACE</small>
+        <h2 id="auth-title">Bienvenue sur Vortex</h2>
+        <p id="auth-description">Connecte-toi ou crée un compte pour rejoindre le salon général comme membre.</p>
+        <form id="auth-form">
+          <label for="auth-nickname">Pseudo</label>
+          <input id="auth-nickname" maxlength="24" autocomplete="nickname" placeholder="Ton pseudo" required />
+          <label for="auth-email">Adresse e-mail</label>
+          <input id="auth-email" type="email" autocomplete="email" required placeholder="toi@exemple.fr" />
+          <label for="auth-password">Mot de passe</label>
+          <input id="auth-password" type="password" autocomplete="current-password" minlength="8" required placeholder="8 caractères minimum" />
+          <p id="auth-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
+          <button id="auth-submit" class="primary-button" type="submit">Créer mon compte · rôle Membre</button>
+        </form>
+        <button id="auth-mode-toggle" class="auth-mode-toggle" type="button">Déjà inscrit ? Se connecter</button>
+      </div>
+    </section>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
     <script src="script.js"></script>
+    <script type="module" src="cloud.js"></script>
   </body>
 </html>

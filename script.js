@@ -72,8 +72,8 @@ const $ = (selector) => document.querySelector(selector);
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"
 })[character]);
-const memberById = (id) => state.members.find((member) => member.id === id);
-const currentMember = () => memberById(state.currentMemberId) || state.members[0];
+const memberById = (id) => (window.vortexCloud?.members || state.members).find((member) => member.id === id);
+const currentMember = () => window.vortexCloud?.member || memberById(state.currentMemberId) || state.members[0];
 const initials = (name) => Array.from(name.trim())[0]?.toLocaleUpperCase("fr") || "?";
 const formatTime = (time) => new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit" }).format(time);
 
@@ -404,7 +404,7 @@ function directMessagesWith(memberId) {
 }
 
 function renderDirectList() {
-  const otherMembers = state.members.filter((member) => member.id !== state.currentMemberId);
+  const otherMembers = (window.vortexCloud?.members || state.members).filter((member) => member.id !== currentMember().id);
   $("#direct-list").innerHTML = otherMembers.length
     ? otherMembers.map((member) => {
       const messages = directMessagesWith(member.id);
@@ -423,6 +423,7 @@ function renderDirectList() {
 
 function renderMessages() {
   const view = state.activeView;
+  if (window.vortexCloud?.active) window.vortexCloud.view = view;
   const isDirect = view.startsWith("dm:");
   const isVoice = view === "voice";
   const isFiles = view === "files";
@@ -528,19 +529,25 @@ function renderMessages() {
     $("#conversation-note").textContent = "Cette conversation reste enregistrée dans ce navigateur.";
   } else {
     const isPrivateChannel = view === "chefs";
-    const permitted = !isPrivateChannel || currentMember().role === "chef";
+    const permitted = !isPrivateChannel || (window.vortexCloud?.active
+      ? ["chef", "general"].includes(currentMember().role)
+      : currentMember().role === "chef");
     $("#view-icon").textContent = isPrivateChannel ? "▣" : "#";
     $("#view-title").textContent = isPrivateChannel ? "entre-chefs" : "général";
     $("#view-description").textContent = isPrivateChannel ? "Un espace privé pour les chefs" : "Le salon de tout le monde";
     $("#conversation-kicker").textContent = "SALON DE DISCUSSION";
     $("#conversation-icon").textContent = isPrivateChannel ? "▣" : "#";
     $("#conversation-title").textContent = isPrivateChannel ? "entre-chefs" : "général";
-    $("#presence-count").textContent = String(state.members.length);
+    $("#presence-count").textContent = String(window.vortexCloud?.active
+      ? window.vortexCloud.members.length
+      : state.members.length);
     $("#presence-label").textContent = "membres";
     $("#message-input").placeholder = `Écrire dans #${isPrivateChannel ? "entre-chefs" : "général"}...`;
-    $("#conversation-note").textContent = "Les messages sont enregistrés dans ce navigateur.";
+    $("#conversation-note").textContent = window.vortexCloud?.active
+      ? "Les messages sont partagés avec les membres connectés."
+      : "Les messages sont enregistrés dans ce navigateur.";
     $("#access-notice").hidden = permitted;
-    $("#access-notice").textContent = permitted ? "" : "Ce salon est réservé aux chefs. Change le rôle de démonstration pour y accéder.";
+    $("#access-notice").textContent = permitted ? "" : "Ce salon est réservé aux chefs et au rôle Général.";
     $("#message-form").hidden = !permitted;
     if (!permitted) {
       $("#messages").innerHTML = "";
@@ -565,6 +572,9 @@ function renderMessages() {
       </div>
     </article>`;
   }).join("") || `<div class="access-notice">${isDirect ? `C’est le début de ta conversation privée avec ${escapeHtml(otherMember.name)}. Envoie-lui un message !` : "Pas encore de message. Lance la conversation !"}</div>`;
+  if (!isDirect && window.vortexCloud?.active && ["general", "chefs"].includes(view)) {
+    window.vortexCloud.renderMessages();
+  }
   $("#messages").scrollTop = $("#messages").scrollHeight;
 }
 
@@ -572,6 +582,7 @@ function render() {
   $("#profile-name").textContent = currentMember().name;
   $("#profile-avatar").textContent = initials(currentMember().name);
   $("#current-role").value = currentMember().role;
+  $("#current-role").disabled = Boolean(window.vortexCloud?.active);
   renderDirectList();
   document.querySelectorAll("[data-view]").forEach((button) => {
     button.classList.toggle("selected", button.dataset.view === state.activeView);
@@ -592,8 +603,15 @@ $("#message-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const text = $("#message-input").value.trim();
   if (!text) return;
+  if (window.vortexCloud?.active) {
+    window.vortexCloud.sendMessage(text);
+    $("#message-input").value = "";
+    return;
+  }
   const isDirect = state.activeView.startsWith("dm:");
-  if (state.activeView === "chefs" && currentMember().role !== "chef") {
+  if (state.activeView === "chefs" && !(window.vortexCloud?.active
+    ? ["chef", "general"].includes(currentMember().role)
+    : currentMember().role === "chef")) {
     showToast("Ce salon est réservé aux chefs.");
     return;
   }
@@ -615,7 +633,9 @@ $("#message-form").addEventListener("submit", (event) => {
 
 document.querySelectorAll("[data-view]").forEach((button) => {
   button.addEventListener("click", () => {
-    if (button.dataset.view === "chefs" && currentMember().role !== "chef") {
+    if (button.dataset.view === "chefs" && !(window.vortexCloud?.active
+      ? ["chef", "general"].includes(currentMember().role)
+      : currentMember().role === "chef")) {
       showToast("Ce salon est réservé aux chefs.");
       return;
     }
@@ -902,6 +922,10 @@ $("#info-post-list").addEventListener("click", (event) => {
 });
 
 $("#current-role").addEventListener("change", (event) => {
+  if (window.vortexCloud?.active) {
+    event.target.value = currentMember().role;
+    return;
+  }
   currentMember().role = event.target.value;
   if (event.target.value !== "chef" && state.activeView === "chefs") state.activeView = "general";
   saveState();
@@ -909,6 +933,10 @@ $("#current-role").addEventListener("change", (event) => {
 });
 
 $("#add-person").addEventListener("click", () => {
+  if (window.vortexCloud?.active) {
+    showToast("Demande à cette personne de créer son propre compte Vortex.");
+    return;
+  }
   $("#person-name").value = "";
   $("#person-dialog").showModal();
   $("#person-name").focus();
@@ -934,6 +962,10 @@ $("#person-form").addEventListener("submit", (event) => {
 });
 
 $("#change-pseudo").addEventListener("click", () => {
+  if (window.vortexCloud?.active) {
+    window.vortexCloud.changeNickname();
+    return;
+  }
   $("#pseudo-input").value = currentMember().name;
   $("#pseudo-dialog").showModal();
   $("#pseudo-input").focus();
@@ -952,6 +984,10 @@ $("#pseudo-form").addEventListener("submit", (event) => {
 });
 
 $("#invite-button").addEventListener("click", () => {
+  if (window.vortexCloud?.active) {
+    window.vortexCloud.showInvite();
+    return;
+  }
   const token = crypto.randomUUID().replaceAll("-", "").slice(0, 12);
   state.invitations.push(token);
   saveState();

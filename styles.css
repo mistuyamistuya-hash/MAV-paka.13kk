@@ -422,3 +422,19 @@ footer{display:none}
 @media(max-width:550px){.storm-content{padding:32px 18px}.storm-footer{bottom:14px;font-size:7px;letter-spacing:1.2px}}
 @media(prefers-reduced-motion:reduce){.storm-cloud,.storm-cloud-texture,.storm-rain,.storm-rain-near::after,.storm-fog,.storm-landscape,.storm-lightning,.storm-lightning path{animation:none}.storm-lightning{opacity:.03}.storm-lightning path{opacity:.24}.storm-landscape{filter:brightness(.9)}.storm-intro{transition:none}}
 @media(max-width:550px){.extra-heading{display:none}.extra-nav{display:flex}.extra-nav .nav-item{flex:0 0 auto}}
+
+.auth-gate{position:fixed;z-index:900;inset:0;display:grid;place-items:center;overflow:auto;padding:24px;background:radial-gradient(ellipse at 50% 25%,rgba(93,107,114,.62),transparent 56%),linear-gradient(180deg,#1b2227,#0c1013)}
+.auth-gate[hidden]{display:none}
+.auth-card{display:flex;width:min(430px,100%);flex-direction:column;align-items:stretch;padding:32px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:rgba(24,29,33,.95);box-shadow:0 25px 90px rgba(0,0,0,.42);color:#f4f5f6}
+.auth-card>.storm-brand-mark{align-self:center;margin-bottom:20px}
+.auth-card>small{text-align:center;color:#d5a3a8;font-size:9px;font-weight:800;letter-spacing:2px}
+.auth-card h2{margin:9px 0;color:#fff;font-size:24px;text-align:center}
+.auth-card>p{margin:0 0 20px;color:#aeb5b9;font-size:13px;line-height:1.5;text-align:center}
+.auth-card form{display:grid;gap:9px}
+.auth-card label{margin-top:5px;color:#d7dadd;font-size:12px;font-weight:700}
+.auth-card input{width:100%;min-height:42px;padding:10px 12px;border:1px solid #42494e;border-radius:6px;background:#111619;color:white}
+.auth-card input:focus{border-color:#e14a5b;outline:2px solid rgba(225,74,91,.2)}
+.auth-card .primary-button{margin-top:10px}
+.auth-feedback{min-height:18px;margin:3px 0;color:#f2acb2;font-size:12px;line-height:1.45;overflow-wrap:anywhere}
+.auth-mode-toggle{margin-top:16px;border:0;background:none;color:#d3a0a5;font-size:12px}
+@media(max-width:550px){.auth-card{padding:26px 20px}}
