@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101010" />
+    <meta name="description" content="Vortex, espace local de discussion et de messages privés." />
+    <title>Vortex — Espace de discussion</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section id="storm-intro" class="storm-intro" role="dialog" aria-modal="true" aria-labelledby="storm-title" aria-describedby="storm-description">
+      <div class="storm-sky" aria-hidden="true">
+        <div class="storm-cloud storm-cloud-back"></div>
+        <div class="storm-cloud storm-cloud-middle"></div>
+        <div class="storm-cloud storm-cloud-front"></div>
+        <svg class="storm-cloud-texture" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+          <filter id="storm-cloud-noise" x="-15%" y="-15%" width="130%" height="130%">
+            <feTurbulence type="fractalNoise" baseFrequency=".006 .024" numOctaves="4" seed="17" />
+            <feColorMatrix values="0 0 0 0 .34 0 0 0 0 .39 0 0 0 0 .43 1 0 0 0 -.37" />
+            <feGaussianBlur stdDeviation="1.2" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#storm-cloud-noise)" />
+        </svg>
+        <div class="storm-fog"></div>
+        <svg class="storm-landscape" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" focusable="false">
+          <defs>
+            <linearGradient id="storm-horizon" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#68757a" stop-opacity=".1" />
+              <stop offset="1" stop-color="#222b30" stop-opacity=".7" />
+            </linearGradient>
+            <linearGradient id="storm-ground" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#20282c" />
+              <stop offset="1" stop-color="#0c1114" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#storm-horizon)" d="M0 156 82 132 156 149 245 111 325 143 414 120 506 153 596 115 688 148 773 108 862 140 948 119 1041 153 1128 111 1210 140 1302 105 1440 145V420H0Z" />
+          <path fill="#1a2226" d="M0 219Q94 181 190 210T381 201Q475 178 571 213T759 198Q853 177 952 211T1140 197Q1282 166 1440 210V420H0Z" />
+          <path fill="url(#storm-ground)" d="M0 268Q161 228 321 268T645 257T963 270T1275 249T1440 262V420H0Z" />
+          <g fill="#111719" opacity=".96">
+            <path d="M42 314q-5-12 4-19-4-19 10-30-3-22 16-34 18 11 15 32 14 10 10 28 10 9 3 20l14 42H29Zm242-5q-7-15 5-26-2-22 16-34 17 10 14 30 14 11 8 27 9 9 2 19l13 34h-71Zm353 1q-6-13 4-23-3-23 15-36 19 11 16 31 13 10 8 27 11 9 4 21l13 34h-71Zm448-7q-8-14 4-25-2-21 16-34 18 10 14 30 14 9 9 25 11 9 4 22l14 35h-73Zm265 6q-6-13 5-24-4-21 14-33 20 10 16 30 13 10 7 26 11 9 5 20l13 34h-68Z" />
+            <path d="M158 337q-9-13 1-25-3-18 12-28 17 9 13 27 11 9 7 22 8 8 3 18l11 29h-57Zm550-2q-7-12 2-23-3-20 13-31 17 10 13 28 12 9 8 22 9 8 3 19l12 29h-59Zm410-1q-8-14 2-24-3-19 13-29 17 9 13 27 11 8 7 22 10 8 4 18l11 29h-58Z" />
+          </g>
+          <path class="storm-puddle" d="M0 360q138-14 281 0t293 0q158-16 316 0t292 0q134-12 258 1" />
+          <path class="storm-puddle" d="M155 390q100-9 205 0m576-17q118-12 238 0m-454 39q74-7 152 0" />
+        </svg>
+        <svg class="storm-grain" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+          <filter id="storm-noise">
+            <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="2" seed="8" />
+            <feColorMatrix type="saturate" values="0" />
+            <feComponentTransfer><feFuncA type="table" tableValues="0 .13" /></feComponentTransfer>
+          </filter>
+          <rect width="100%" height="100%" filter="url(#storm-noise)" />
+        </svg>
+        <div class="storm-rain storm-rain-far"></div>
+        <div class="storm-rain storm-rain-near"></div>
+        <div class="storm-lightning">
+          <svg viewBox="0 0 1000 700" preserveAspectRatio="none" focusable="false">
+            <path class="storm-bolt-glow" d="M680 110 586 302 638 292 500 557 547 359 491 375 568 174" />
+            <path class="storm-bolt-main" d="M680 110 586 302 638 292 500 557 547 359 491 375 568 174" />
+            <path class="storm-bolt-branch" d="m586 302-74 48-50-8m126 10 61 39 45-3m-146-29-36 90-49 34" />
+          </svg>
+        </div>
+      </div>
+      <div class="storm-content">
+        <span class="storm-brand-mark" aria-hidden="true">V</span>
+        <p class="storm-eyebrow">UN NOUVEAU MONDE VOUS ATTEND</p>
+        <h1 id="storm-title">VORTEX<span>.</span></h1>
+        <p id="storm-description">Le calme avant la tempête… entre dans le salon.</p>
+        <button id="storm-enter" class="storm-enter" type="button">Entrée <span aria-hidden="true">→</span></button>
+      </div>
+      <span class="storm-footer" aria-hidden="true">ESPACE DE DISCUSSION · MAQUETTE LOCALE</span>
+    </section>
+    <div class="app-shell" inert>
+      <aside class="sidebar" aria-label="Navigation Vortex">
+        <a class="brand" href="#" aria-label="Accueil Vortex"><span class="brand-mark">V</span> vortex<span class="red">.</span></a>
+        <div class="server-card"><span class="server-mark">V</span><span><strong>Mon espace</strong><small>Démo locale</small></span><span class="server-chevron">⌄</span></div>
+
+        <div class="side-heading">SALONS</div>
+        <nav class="nav-list" aria-label="Salons">
+          <button class="nav-item selected" data-view="general"><span class="hash">#</span> général</button>
+          <button class="nav-item" data-view="chefs"><span>▣</span> entre-chefs <small>privé</small></button>
+        </nav>
+        <div class="side-heading extra-heading">SALONS VOCAUX</div>
+        <nav class="nav-list extra-nav" aria-label="Salons vocaux"><button class="nav-item" data-view="voice"><span>♫</span> salon-vocal</button></nav>
+        <div class="side-heading extra-heading">RÉUNION</div>
+        <nav class="nav-list extra-nav" aria-label="Réunion"><button class="nav-item" data-view="meeting"><span>♟</span> réunion</button></nav>
+        <div class="side-heading extra-heading">ESPACE DE FICHIERS</div>
+        <nav class="nav-list extra-nav" aria-label="Fichiers"><button class="nav-item" data-view="files"><span>▤</span> fichiers</button></nav>
+        <div class="side-heading extra-heading">MÉDIAS</div>
+        <nav class="nav-list extra-nav" aria-label="Médias"><button class="nav-item" data-view="media"><span>▶</span> médias</button></nav>
+        <div class="side-heading extra-heading">INFORMATIONS</div>
+        <nav class="nav-list extra-nav" aria-label="Informations"><button class="nav-item" data-view="info"><span>ⓘ</span> informations</button></nav>
+        <div class="side-heading extra-heading">ÉQUIPE</div>
+        <nav class="nav-list extra-nav" aria-label="Arrivées et départs"><button class="nav-item" data-view="activity"><span>↕</span> arrivées-départs</button></nav>
+
+        <div class="side-heading direct-heading"><span>MESSAGES PRIVÉS</span><button id="add-person" class="add-button" title="Ajouter une personne" aria-label="Ajouter une personne">＋</button></div>
+        <nav id="direct-list" class="nav-list" aria-label="Conversations privées"></nav>
+
+        <div class="side-spacer"></div>
+        <div class="local-note"><span>●</span><div><strong>Maquette locale</strong><small>Discussions sur cet appareil seulement.</small></div></div>
+        <div class="profile"><span id="profile-avatar" class="avatar avatar-you">J</span><div class="profile-copy"><strong id="profile-name">Jesse</strong><label class="sr-only" for="current-role">Rôle de démonstration</label><select id="current-role" aria-label="Rôle de démonstration"><option value="general">Général · démo</option><option value="chef">Chef · démo</option><option value="sous-chef">Sous-chef · démo</option><option value="membre">Membre · démo</option></select></div><button id="change-pseudo" class="edit-button" aria-label="Changer mon pseudo" title="Changer mon pseudo">✎</button></div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div class="crumb"><span id="view-icon">#</span><strong id="view-title">général</strong><span class="slash">/</span><span id="view-description">Le salon de tout le monde</span></div>
+          <div class="top-actions"><span class="presence"><i></i><span id="presence-count">3</span> <span id="presence-label">membres</span></span><span class="local-pill"><i></i> Local</span><button class="outline-button" id="invite-button">＋ Inviter</button></div>
+        </header>
+        <div class="content">
+          <section class="hero">
+            <div><span class="eyebrow">✦ TON ESPACE, TES RÈGLES</span><h1>Le courant passe<br />mieux <em>ensemble.</em></h1><p>Un endroit pour discuter, partager et garder ton équipe connectée.</p></div>
+            <div class="hero-orbit" aria-hidden="true"><span>V</span></div>
+          </section>
+
+          <section class="conversation">
+            <header class="conversation-head">
+              <div><small id="conversation-kicker">SALON DE DISCUSSION</small><h2><span id="conversation-icon">#</span> <span id="conversation-title">général</span></h2></div>
+            </header>
+            <div id="access-notice" class="access-notice" hidden></div>
+            <div id="messages" class="messages" aria-live="polite"></div>
+            <section id="voice-panel" class="special-panel" hidden>
+              <div class="special-card">
+                <span class="special-icon">♫</span><small>SALON VOCAL · DÉMO LOCALE</small>
+                <h3 id="voice-title">Le salon est libre</h3>
+                <p id="voice-description">Rejoins le salon pour afficher les commandes d’appel de démonstration.</p>
+                <p class="special-note">Démo locale : aucun micro n’est activé et aucun son n’est transmis.</p>
+                <div class="special-actions"><button id="voice-join" class="primary-button" type="button">Rejoindre le salon</button><button id="voice-leave" class="outline-button" type="button" hidden>Quitter</button></div>
+              </div>
+            </section>
+            <section id="meeting-panel" class="meeting-panel" hidden>
+              <div class="meeting-card">
+                <span class="meeting-icon" aria-hidden="true">♟</span>
+                <small>RÉUNION D’ÉQUIPE · DÉMO LOCALE</small>
+                <h3 id="meeting-status">Aucune réunion en cours</h3>
+                <p id="meeting-started-by">Quand une réunion sera lancée, son état apparaîtra ici.</p>
+                <p class="meeting-note">Dans cette démo locale, le micro est capté sur cet appareil seulement. Ta voix n’est pas envoyée aux autres profils.</p>
+                <p id="meeting-permission-note" class="meeting-permission" hidden>Seul le rôle Général peut lancer ou terminer une réunion.</p>
+                <div id="meeting-microphone" class="meeting-microphone" hidden>
+                  <div class="microphone-status-row"><span id="microphone-status-dot" class="microphone-status-dot"></span><strong id="microphone-status">Micro désactivé</strong></div>
+                  <div id="microphone-meter" class="microphone-meter" role="meter" aria-label="Niveau sonore du micro" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="microphone-meter-fill"></span></div>
+                  <div class="microphone-actions">
+                    <button id="microphone-enable" class="primary-button" type="button">Activer le micro</button>
+                    <button id="microphone-mute" class="outline-button" type="button" hidden>Couper le micro</button>
+                    <button id="microphone-stop" class="outline-button" type="button" hidden>Quitter le micro</button>
+                  </div>
+                  <p class="microphone-help">Autorise l’accès au micro dans ton navigateur. Compatible avec les appareils équipés d’un micro ; sur téléphone, ouvre la page sécurisée en HTTPS.</p>
+                </div>
+                <div class="meeting-actions">
+                  <button id="meeting-start" class="primary-button" type="button">Lancer la réunion</button>
+                  <button id="meeting-end" class="outline-button" type="button" hidden>Terminer la réunion</button>
+                </div>
+              </div>
+            </section>
+            <section id="files-panel" class="files-panel" hidden>
+              <div class="files-note"><strong>Fichiers locaux</strong><span>Enregistrés dans ce navigateur sur cet appareil ; pas partagés avec les autres.</span></div>
+              <label class="file-picker" for="file-input"><span>↑</span><strong>Choisir des fichiers</strong><small>25 Mo maximum par fichier</small></label>
+              <input id="file-input" class="sr-only" type="file" multiple />
+              <div class="file-list-heading"><strong>Fichiers enregistrés</strong><span id="file-count">0</span></div>
+              <div id="file-list" class="file-list"><p class="empty-state">Aucun fichier enregistré pour le moment.</p></div>
+            </section>
+            <section id="media-panel" class="media-panel" hidden>
+              <div class="files-note"><strong>Ta collection de médias</strong><span>Les vidéos et les liens sont enregistrés uniquement dans ce navigateur. Ils ne sont pas transmis aux autres membres.</span></div>
+              <div class="media-upload">
+                <div><strong>Ajouter une vidéo</strong><small>La vidéo restera sur cet appareil · 100 Mo maximum</small></div>
+                <label class="media-select-button" for="video-input">Choisir une vidéo</label>
+                <input id="video-input" class="sr-only" type="file" accept="video/*" />
+              </div>
+              <form id="media-link-form" class="media-link-form">
+                <label for="media-link-input">Ajouter un lien TikTok</label>
+                <div class="media-link-row"><input id="media-link-input" type="url" inputmode="url" placeholder="https://www.tiktok.com/..." required /><button type="submit" aria-label="Ajouter le lien TikTok">＋</button></div>
+                <small>Tu pourras ensuite ouvrir la vidéo sur TikTok.</small>
+              </form>
+              <div class="file-list-heading"><strong>Vidéos et liens</strong><span id="media-count">0</span></div>
+              <div id="media-list" class="media-list"><p class="empty-state">Aucune vidéo ni aucun lien pour le moment.</p></div>
+            </section>
+            <section id="info-panel" class="info-panel" hidden>
+              <div class="files-note"><strong>Informations de l’équipe</strong><span>Écris ici les informations, découvertes ou annonces que tu souhaites garder. Elles sont enregistrées dans ce navigateur.</span></div>
+              <form id="info-post-form" class="info-post-form">
+                <label for="info-post-title">Titre de l’information</label>
+                <input id="info-post-title" maxlength="80" required placeholder="Ex. Horaire de la réunion" />
+                <label for="info-post-text">Écris ton information</label>
+                <textarea id="info-post-text" maxlength="2000" rows="4" required placeholder="Note ici ce que tu as trouvé ou ce que l’équipe doit savoir…"></textarea>
+                <button class="primary-button" type="submit">Publier l’information</button>
+              </form>
+              <div class="file-list-heading"><strong>Informations publiées</strong><span id="info-post-count">0</span></div>
+              <div id="info-post-list" class="info-post-list" aria-live="polite"><p class="empty-state">Aucune information publiée pour le moment.</p></div>
+              <h3 class="info-about-heading">À propos de Vortex</h3>
+              <div class="info-grid">
+                <article class="info-card"><span class="info-card-icon">#</span><div><h3>Salons de discussion</h3><p>Dans <strong>général</strong>, tout le monde peut échanger. Le salon <strong>entre-chefs</strong> est réservé au rôle Chef.</p></div></article>
+                <article class="info-card"><span class="info-card-icon">♟</span><div><h3>Rôles de l’équipe</h3><p>Les rôles disponibles sont <strong>Général</strong>, <strong>Chef</strong>, <strong>Sous-chef</strong> et <strong>Membre</strong>. Tu peux choisir un rôle de démonstration depuis ton profil.</p></div></article>
+                <article class="info-card"><span class="info-card-icon">✉</span><div><h3>Messages privés</h3><p>Ajoute un profil avec le bouton ＋ dans la liste des messages privés, puis ouvre sa conversation.</p></div></article>
+                <article class="info-card"><span class="info-card-icon">▤</span><div><h3>Fichiers et médias</h3><p>Garde des fichiers sur cet appareil, ajoute des vidéos locales et enregistre des liens TikTok dans l’onglet Médias.</p></div></article>
+                <article class="info-card"><span class="info-card-icon">♫</span><div><h3>Salon vocal</h3><p>Le salon vocal est une démonstration d’interface : aucun micro n’est activé et aucun son n’est transmis.</p></div></article>
+                <article class="info-card"><span class="info-card-icon">↗</span><div><h3>Invitations</h3><p>Les liens d’invitation servent uniquement à la démonstration locale et ne permettent pas de rejoindre depuis un autre appareil.</p></div></article>
+              </div>
+              <p class="info-local-warning"><strong>À savoir :</strong> Vortex fonctionne localement dans ce navigateur. Les messages, fichiers et médias ne sont pas partagés avec d’autres personnes ou appareils.</p>
+            </section>
+            <section id="activity-panel" class="activity-panel" hidden>
+              <div class="files-note"><strong>Arrivées et départs</strong><span>Signale la présence d’un profil pour ajouter une entrée à l’historique et afficher une notification dans Vortex.</span></div>
+              <div class="presence-controls">
+                <label for="presence-member">Personne</label>
+                <select id="presence-member" aria-label="Personne concernée"></select>
+                <button id="presence-arrive" class="primary-button" type="button">↗ Signaler une arrivée</button>
+                <button id="presence-leave" class="outline-button" type="button">↙ Signaler un départ</button>
+              </div>
+              <div class="presence-summary"><strong>Historique</strong><span><b id="presence-event-count">0</b> événement(s)</span></div>
+              <div id="presence-event-list" class="presence-event-list" aria-live="polite"><p class="empty-state">Aucune arrivée ni aucun départ enregistré.</p></div>
+              <p class="info-local-warning"><strong>Notification :</strong> les alertes sont affichées dans cette application. Comme Vortex est une maquette locale, elles ne sont pas envoyées aux autres appareils.</p>
+            </section>
+            <form id="message-form" class="composer">
+              <label class="sr-only" for="message-input">Écrire un message</label>
+              <input id="message-input" maxlength="1000" placeholder="Écrire dans #général..." autocomplete="off" />
+              <button aria-label="Envoyer le message" type="submit">↑</button>
+            </form>
+            <p id="conversation-note" class="conversation-note">Les messages sont enregistrés dans ce navigateur.</p>
+          </section>
+        </div>
+        <footer>VORTEX <span class="red">●</span> MAQUETTE LOCALE <span class="footer-right">Fait pour se retrouver.</span></footer>
+      </main>
+    </div>
+
+    <dialog id="person-dialog" class="modal">
+      <form method="dialog" class="close-form"><button class="close-button" aria-label="Fermer">×</button></form>
+      <div class="modal-icon">＋</div><small>AGRANDIS TON ÉQUIPE</small>
+      <h2>Ajouter une personne</h2>
+      <p>Crée un profil local pour démarrer une conversation privée avec cette personne.</p>
+      <form id="person-form">
+        <label for="person-name">Son pseudo</label>
+        <input id="person-name" maxlength="24" required placeholder="Ex. Alex" />
+        <button type="submit" class="primary-button">Ajouter et ouvrir la conversation →</button>
+      </form>
+      <p class="fine-print">Le nouveau profil est ajouté uniquement sur cet appareil. Il ne recevra pas de notification.</p>
+    </dialog>
+
+    <dialog id="pseudo-dialog" class="modal">
+      <form method="dialog" class="close-form"><button class="close-button" aria-label="Fermer">×</button></form>
+      <div class="modal-icon">✎</div><small>TON PROFIL</small>
+      <h2>Changer de pseudo</h2>
+      <form id="pseudo-form">
+        <label for="pseudo-input">Ton pseudo</label>
+        <input id="pseudo-input" maxlength="24" required />
+        <button type="submit" class="primary-button">Enregistrer →</button>
+      </form>
+    </dialog>
+
+    <dialog id="invite-dialog" class="modal">
+      <form method="dialog" class="close-form"><button class="close-button" aria-label="Fermer">×</button></form>
+      <div class="modal-icon">↗</div><small>FAIS PASSER LE MOT</small>
+      <h2>Inviter quelqu’un</h2>
+      <p>Dans cette maquette, un lien d’invitation fonctionne uniquement dans le même navigateur sur cet appareil.</p>
+      <label for="invite-link">Lien de démonstration</label>
+      <div class="copy-row"><input id="invite-link" readonly /><button id="copy-invite" type="button">Copier</button></div>
+      <p id="invite-feedback" class="fine-print" aria-live="polite"></p>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="script.js"></script>
+  </body>
+</html>
